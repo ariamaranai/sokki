@@ -1,0 +1,1 @@
+{let c=chrome,g=c.storage.local,s=c.scripting,p=c.action,x,f=async()=>(await s.unregisterContentScripts(),p.setIcon({path:x?(g.set({0:1}),x=0,"off.png"):(g.set({0:0}),x=1,s.registerContentScripts([{id:"0",css:["s.css"],matches:["<all_urls>"],runAt:"document_start",allFrames:!0}]),"on.png")}));g.get("0").then(v=>(x=v[0],p.onClicked.addListener(f),f()))}
