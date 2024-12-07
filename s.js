@@ -1,1 +1,0 @@
-(async({action:p,storage:g,scripting:s})=>{let{onClicked:c,setIcon:i}=p,{unregisterContentScripts:u,registerContentScripts:k}=s;p=await(g=g.local).get("0"),c.addListener(()=>(u(),i({path:p?(g.set({0:1}),p=0,"off.png"):(g.set({0:0}),k([{id:"0",css:["s.css"],matches:["<all_urls>"],runAt:"document_start",allFrames:p=!0}]),"on.png")}))),c.dispatch()})(chrome)
