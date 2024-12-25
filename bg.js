@@ -12,8 +12,13 @@ chrome.action.onClicked.addListener(async () =>
          "on.png")
   })
 );
-chrome.management.onEnabled.addListener(async info =>
-  info.id == chrome.runtime.id &&
-  (await chrome.scripting.getRegisteredContentScripts()).length ||
-  chrome.action.setIcon({ path: "off.png" })
+chrome.scripting.getRegisteredContentScripts().then(scripts =>
+  scripts.length ||
+  chrome.scripting.registerContentScripts([{
+    id: "0",
+    css: ["main.css"],
+    matches: ["<all_urls>"],
+    runAt: "document_start",
+    allFrames: !0
+  }])
 );
