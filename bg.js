@@ -1,13 +1,13 @@
 chrome.action.onClicked.addListener(() =>
-  chrome.scripting.getRegisteredContentScripts(async scripts =>
-    await chrome.action.setIcon({
+  chrome.scripting.getRegisteredContentScripts(scripts =>
+    chrome.action.setIcon({
       path: scripts.length
         ? (
-          await chrome.scripting.unregisterContentScripts(),
+          chrome.scripting.unregisterContentScripts(),
           "off.png"
         )
         : (
-          await chrome.scripting.registerContentScripts([{
+          chrome.scripting.registerContentScripts([{
             id: "0",
             css: ["main.css"],
             matches: ["<all_urls>"],
@@ -19,8 +19,8 @@ chrome.action.onClicked.addListener(() =>
     })
   )
 );
-chrome.scripting.getRegisteredContentScripts(async scripts =>
-  scripts.length || await chrome.scripting.registerContentScripts([{
+chrome.scripting.getRegisteredContentScripts(scripts =>
+  scripts.length || chrome.scripting.registerContentScripts([{
     id: "0",
     css: ["main.css"],
     matches: ["<all_urls>"],
