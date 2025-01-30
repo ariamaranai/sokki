@@ -1,8 +1,7 @@
-{
-  isDisable = 0;
-  chrome.action.onClicked.addListener(() =>
+chrome.action.onClicked.addListener(() =>
+  chrome.scripting.getRegisteredContentScripts(scripts =>
     chrome.action.setIcon({
-      path: (isDisable = !isDisable)
+      path: scripts.length
         ? (
           chrome.scripting.unregisterContentScripts(),
           "off.png"
@@ -18,12 +17,14 @@
          "on.png"
         )
     })
-  );
-}
-chrome.scripting.registerContentScripts([{
-  id: "0",
-  css: ["main.css"],
-  matches: ["<all_urls>"],
-  runAt: "document_start",
-  allFrames: !0
-}])
+  )
+);
+chrome.scripting.getRegisteredContentScripts(scripts =>
+  scripts.length || chrome.scripting.registerContentScripts([{
+    id: "0",
+    css: ["main.css"],
+    matches: ["<all_urls>"],
+    runAt: "document_start",
+    allFrames: !0
+  }])
+);
