@@ -1,7 +1,8 @@
-chrome.action.onClicked.addListener(() =>
-  chrome.scripting.getRegisteredContentScripts(scripts =>
+{
+  isDisable = 0;
+  chrome.action.onClicked.addListener(() =>
     chrome.action.setIcon({
-      path: scripts.length
+      path: (isDisable = !isDisable)
         ? (
           chrome.scripting.unregisterContentScripts(),
           "off.png"
@@ -17,14 +18,12 @@ chrome.action.onClicked.addListener(() =>
          "on.png"
         )
     })
-  )
-);
-chrome.scripting.getRegisteredContentScripts(scripts =>
-  scripts.length || chrome.scripting.registerContentScripts([{
-    id: "0",
-    css: ["main.css"],
-    matches: ["<all_urls>"],
-    runAt: "document_start",
-    allFrames: !0
-  }])
-);
+  );
+}
+chrome.scripting.registerContentScripts([{
+  id: "0",
+  css: ["main.css"],
+  matches: ["<all_urls>"],
+  runAt: "document_start",
+  allFrames: !0
+}])
