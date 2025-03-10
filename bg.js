@@ -2,11 +2,11 @@ chrome.action.onClicked.addListener(async () =>
   chrome.action.setIcon({
     path: (await chrome.scripting.getRegisteredContentScripts()).length
       ? (
-        chrome.scripting.unregisterContentScripts(),
+        await chrome.scripting.unregisterContentScripts(),
         "off.png"
       )
       : (
-        chrome.scripting.registerContentScripts([{
+        await chrome.scripting.registerContentScripts([{
           id: "0",
           css: ["main.css"],
           matches: ["<all_urls>"],
@@ -17,18 +17,16 @@ chrome.action.onClicked.addListener(async () =>
       )
   })
 );
-chrome.runtime.onStartup.addListener(() =>
-  chrome.scripting.getRegisteredContentScripts(scripts =>
-    scripts.length || (
-      chrome.scripting.registerContentScripts([{
-        id: "0",
-        css: ["main.css"],
-        matches: ["<all_urls>"],
-        runAt: "document_start",
-        allFrames: !0
-      }]),
-      chrome.action.setIcon({ path: "on.png" })
-    )
+chrome.runtime.onStartup.addListener(async () =>
+  (await chrome.scripting.getRegisteredContentScripts()).length || (
+    await chrome.scripting.registerContentScripts([{
+      id: "0",
+      css: ["main.css"],
+      matches: ["<all_urls>"],
+      runAt: "document_start",
+      allFrames: !0
+    }]),
+    chrome.action.setIcon({ path: "on.png" })
   )
 );
 chrome.runtime.onStartup.dispatch();
