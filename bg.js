@@ -20,9 +20,10 @@ chrome.action.onClicked.addListener(async () => {
   } catch (e) {}
 });
 {
-  let f = async () => {
+  let hasStarted;
+  chrome.runtime.onStartup.addListener(async () => {
     try {
-      (await chrome.scripting.getRegisteredContentScripts()).length || (
+      hasStarted ??= (await chrome.scripting.getRegisteredContentScripts()).length || (
         await chrome.scripting.registerContentScripts([{
           id: "0",
           css: ["main.css"],
@@ -33,8 +34,6 @@ chrome.action.onClicked.addListener(async () => {
         chrome.action.setIcon({ path: "on.png" })
       )
     } catch (e) {}
-  }
-  chrome.runtime.onSuspend.addListener(() => chrome.runtime.onStartup.removeListener(f));
-  chrome.runtime.onStartup.addListener(f);
-  f();
+  });
 }
+chrome.runtime.onStartup.dispatch();
