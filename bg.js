@@ -20,19 +20,20 @@ chrome.action.onClicked.addListener(async () => {
   } catch (e) {}
 });
 {
-  let hasStarted;
+  let isCalled;
   chrome.runtime.onStartup.addListener(async () => {
     try {
-      hasStarted ??= (await chrome.scripting.getRegisteredContentScripts()).length || (
-        await chrome.scripting.registerContentScripts([{
-          id: "0",
-          css: ["main.css"],
-          matches: ["<all_urls>"],
-          runAt: "document_start",
-          allFrames: !0
-        }]),
-        chrome.action.setIcon({ path: "on.png" })
-      )
+      isCalled ??=
+        (await chrome.scripting.getRegisteredContentScripts()).length || (
+          await chrome.scripting.registerContentScripts([{
+            id: "0",
+            css: ["main.css"],
+            matches: ["<all_urls>"],
+            runAt: "document_start",
+            allFrames: !0
+          }]),
+          chrome.action.setIcon({ path: "on.png" })
+        )
     } catch (e) {}
   });
 }
