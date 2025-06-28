@@ -17,7 +17,7 @@ chrome.action.onClicked.addListener(async () => {
           "on.png"
         )
     })
-  } catch (e) {}
+  } catch {}
 });
 {
   let isCalled;
@@ -34,7 +34,7 @@ chrome.action.onClicked.addListener(async () => {
           }]),
           chrome.action.setIcon({ path: "on.png" })
         )
-    } catch (e) {}
+    } catch {}
   });
 }
 chrome.runtime.onStartup.dispatch();
