@@ -1,13 +1,22 @@
 chrome.action.onClicked.addListener(async () => {
   try {
+    let path;
     (await chrome.scripting.getRegisteredContentScripts()).length
       ? (
         await chrome.scripting.unregisterContentScripts(),
-        chrome.action.setIcon({
-          path: "off.png"
-        })
+        path = "off.png"
       )
-      : chrome.runtime.onInstalled.dispatch();
+      : (
+        await chrome.scripting.registerContentScripts([{
+          id: "0",
+          css: ["main.css"],
+          matches: ["<all_urls>"],
+          runAt: "document_start",
+          allFrames: !0
+        }]),
+        path = "on.png"
+      );
+    chrome.action.setIcon({ path });
   } catch {}
 });
 {
@@ -20,16 +29,5 @@ chrome.action.onClicked.addListener(async () => {
     } catch {}
   });
 }
-chrome.runtime.onInstalled.addListener(() => (
-  chrome.scripting.registerContentScripts([{
-    id: "0",
-    css: ["main.css"],
-    matches: ["<all_urls>"],
-    runAt: "document_start",
-    allFrames: !0
-  }]),
-  chrome.action.setIcon({
-    path: "on.png"
-  })
-));
+chrome.runtime.onInstalled.addListener(() => chrome.action.onClicked.dispatch());
 chrome.runtime.onStartup.dispatch();
