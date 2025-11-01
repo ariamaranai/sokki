@@ -1,22 +1,22 @@
 chrome.action.onClicked.addListener(async () => {
   try {
-    let path;
-    (await chrome.scripting.getRegisteredContentScripts()).length
-      ? (
-        await chrome.scripting.unregisterContentScripts(),
-        path = "off.png"
-      )
-      : (
-        await chrome.scripting.registerContentScripts([{
-          id: "0",
-          css: ["main.css"],
-          matches: ["<all_urls>"],
-          runAt: "document_start",
-          allFrames: !0
-        }]),
-        path = "on.png"
-      );
-    chrome.action.setIcon({ path });
+    chrome.action.setIcon({
+      path: (await chrome.scripting.getRegisteredContentScripts()).length
+        ? (
+          await chrome.scripting.unregisterContentScripts(),
+          "off.png"
+        )
+        : (
+          await chrome.scripting.registerContentScripts([{
+            id: "0",
+            css: ["main.css"],
+            matches: ["<all_urls>"],
+            runAt: "document_start",
+            allFrames: !0
+          }]),
+        "on.png"
+        )
+    });
   } catch {}
 });
 {
