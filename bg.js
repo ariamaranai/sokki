@@ -1,6 +1,6 @@
 chrome.action.onClicked.addListener(async () => {
   try {
-    chrome.action.setIcon({
+    return chrome.action.setIcon({
       path: (await chrome.scripting.getRegisteredContentScripts()).length
         ? (
           await chrome.scripting.unregisterContentScripts(),
@@ -23,7 +23,7 @@ chrome.action.onClicked.addListener(async () => {
   let isCalled;
   chrome.runtime.onStartup.addListener(async () => {
     try {
-      isCalled ??= chrome.action.setIcon({
+      return isCalled ??= chrome.action.setIcon({
         path: (await chrome.scripting.getRegisteredContentScripts()).length ? "on.png" : "off.png"
       });
     } catch {}
